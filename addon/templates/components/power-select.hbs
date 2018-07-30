@@ -25,7 +25,11 @@
     onKeyDown=(action "onTriggerKeydown")
     onFocus=(action "onTriggerFocus")
     onBlur=(action "onTriggerBlur")
-    tabindex=(readonly tabindex)}}
+    tabindex=(readonly tabindex)
+    ariaActivedescendant=ariaActivedescendant
+    aria-activedescendant=ariaActivedescendant
+    role=triggerRole
+  }}
     {{#component triggerComponent
       allowClear=(readonly allowClear)
       buildSelection=(readonly buildSelection)
@@ -41,13 +45,14 @@
       searchField=(readonly searchField)
       select=(readonly publicAPI)
       selectedItemComponent=(readonly selectedItemComponent)
+      ariaActivedescendant=ariaActivedescendant
       as |opt term|}}
       {{yield opt term}}
     {{/component}}
   {{/dropdown.trigger}}
-
   {{#dropdown.content _contentTagName=_contentTagName class=(readonly concatenatedDropdownClasses)}}
     {{component beforeOptionsComponent
+      ariaExpanded="true"
       extra=(readonly extra)
       listboxId=(readonly optionsId)
       onInput=(action "onInput")
@@ -56,7 +61,9 @@
       onFocus=(action "onFocus")
       onBlur=(action "onBlur")
       searchPlaceholder=(readonly searchPlaceholder)
-      select=(readonly publicAPI)}}
+      select=(readonly publicAPI)
+      ariaActivedescendant=ariaActivedescendant
+    }}
     {{#if mustShowSearchMessage}}
       {{component searchMessageComponent
         searchMessage=(readonly searchMessage)
