@@ -1,5 +1,140 @@
 # Master
 
+# 2.2.1
+- [BUGFIX] Update test helpers so they work with latest version of EBD
+
+# 2.2.0
+- [BUGFIX] `{{power-select-multiple}}` should be a tagless component unless otherwise specified.
+
+# 2.1.0
+- [ENHANCEMENT] Create a new sass/less styles that are then imported from the main style. This should
+  not change the public API
+
+# 2.0.15
+- [BUGFIX] Forward `triggerRole` from the multiple-select to the inner select
+
+# 2.0.14
+- [BUGFIX] Fix bug when multiple selects are tagless
+
+# 2.0.13
+- [INTERNAL] Forward `_triggerTagName` in multiple selects
+
+# 2.0.12
+- [BUGFIX] Fix focusing of the searchbox in recent versions of Ember.
+
+# 2.0.11
+- [BUGFIX] Forward `eventType` in multiple selects
+
+# 2.0.10
+- [ENHANCEMENT] Allow select to be open with `click` instead of `mousedown`
+
+# 2.0.9
+- [BUGFIX] Add `highlightOnHover` option (defaults to `true`) that decides if
+  hovering an option with the mouse highlights it.
+
+# 2.0.8
+- [BUGFIX] Fix the previous bugfix.
+
+# 2.0.7
+- [BUGFIX] Avoid polyfilling the DOM in fastboot.
+
+# 2.0.6
+- [BUGFIX] Better support `ObjectProxy` to adapt to changes in EmberData > 3.1
+
+# 2.0.5
+- [BUGFIX] Ensure the active/deactivate actions are not called if the component is already being destroyed.
+
+# 2.0.4
+- [BUGFIX] Fix a bug in which the multiple select opened immediately when renderedin IE11 when using Ember 3.1+ (3.0 and below did not have this bug).
+  It has to do with the way placeholders are set and a bug in IE11 that setting the placeholder trigger a `input` event.
+- [FEATURE] You can add a title to the trigger by passing `title="The title"` to `{{power-select}}` or `{{power-select-multiple}}`
+
+# 2.0.3
+- [BUGFIX] Remove forgoten console statement in test helper
+
+# 2.0.2
+- [INTERNAL] Ensure the addon checks if an object is "thenable" using `Ember.get`.
+
+# 2.0.1
+- [ENHANCEMENT] Pass the `extra` option to the `selectedItemComponent`
+- [CLEANUP] Remove support for node 4.
+
+# 2.0.0
+- [INTERNAL] Update to `ember-basic-dropdown` 1.0.0!!
+- [INTERNAL] Stop using `ember-native-dom-helpers`. Use regular helpers in `@ember/test-helpers`. This
+  causes some subtle changes in asynchrony on the provided test helpers, but if people are using them
+  as intended (with async/await) there should be no noticeable changes.
+
+# 2.0.0-beta.5
+- [BUGFIX] Remove redundant `self.` preceeding many well know globals like document or window
+
+# 2.0.0-beta.4
+- [BUGFIX] Fixes big un Ember 3.1 accessing the getter `selected.then`
+
+# 2.0.0-beta.0
+- [BREAKING] Remove long-time-deprecated behavior to support _some_ usages of the `:eq` pseudoselector from jQuery.
+- [DEPRECATE] Deprecate global async test helpers: `selectChoose`, `selectSearch`, `removeMultipleOption`
+  and `clearSelected`. They are still available, but we recomend explicitly importing them from `ember-power-select/test-support/helpers`
+- [BREAKING] Update to ember-basic-dropdown 1.0.0-beta.0, which drops support for Ember 2.9 and below.
+  In exchange, the component is now lighter and presumably faster.
+- [BREAKING] Change the behaviour of the select when the user types on the focused trigger to mimic
+  how native selects work: Repeating a char cycles though the options that start with that char, but
+  not repeating performs a search (from be beginning, it will not match substrings in the middle of
+  a word). This matcher is called `typeAheadMatcher`, and can also be provided by the user if they
+  want a different behaviour. This change in behaviour kicks the 2.0 cycle.
+
+# 1.10.4
+- [INTERNAL] Refactor test suite to use the new testing API
+
+# 1.10.3
+- [DEPRECATION] Add deprecation to all test helpers when imported from `../../test-support/ember-power-select`.
+  Users should use the helpers that live in `/addon-test-selectors`, whose import part is stable regardless
+  of the nesting of the file from where they are imported. P.e. `import { selectChoose } from 'ember-power-select/test-support/helpers';`
+
+# 1.10.2
+- [ENHANCEMENT] Upgrade to `ember-basic-dropdown` 0.33.10, which supports the `horizontalPosition` property
+  on selects rendered in-place.
+- [BUGFIX] Fix edge case in which an observer could be fired on a being destroyed (this could probably only
+  happen during tests)
+
+# 1.10.1
+- [ENHANCEMENT] Add `triggerRole` option to customize the role of the trigger component down in
+  ember-basic-dropdown.
+
+# 1.10.0
+- [UPDATE] Update `ember-basic-dropdown`, which removes compatibility with IE10 (which was very poor to
+  begin with)
+- [ENHANCEMENT] Update `ember-text-measurer` to 0.4.0, which uses the latest babel, allowing consumer
+  apps to drop `ember-cli-shims`.
+- [BUGFIX] Ensure selecting an option by pressing the spacebar on a select without searchbox does not
+  cause a page scroll.
+
+# 1.9.11
+- [ENHANCEMENT] Update `ember-truth-helpers` to ^2.0
+- [ENHANCEMENT] Update `ember-cli-babel` to ^6.8.2
+
+# 1.9.10
+- [ENHANCEMENT] Pass the `placeholder` and the `placeholderComponent` to the `beforeOptionsComponent`,
+  to allow more customizations on it.
+- [BUGFIX] Allow to specify negative margins in Sass variables
+
+# 1.9.9
+- [ENHANCEMENT] If the options is a `PromiseArrayProxy`, the content of the array is set immediately
+  and updated later when the promise resolves.
+
+# 1.9.8
+- [BUGFIX] The Y-axis validation of the click coordinates when opening is disabled in testing because
+  there is some chance that, due to the weird positioning selects can have in testing, it throws false
+  negatives.
+
+# 1.9.7
+- [ENHANCEMENT] The trigger component also receives the loadingMessage.
+
+# 1.9.6
+- [ENHANCEMENT] Allow `buildSelection` to fallback to the default one when the provided one
+  is undefined.
+- [ENHANCEMENT] Add assertion to ensure developers pass a `searchField` option if the options are not plain strings.
+
 # 1.9.5
 - [BUGFIX] Allow the to use the num-pad of the keyboard to highlight/select items while the trigger
   is focused. Prior to this, only numbers above the keyboard would work.

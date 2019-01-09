@@ -22,6 +22,11 @@
       <td>When truthy, single selects allow to nullify the selection</td>
     </tr>
     <tr>
+      <td>animationEnabled</td>
+      <td><code>boolean</code></td>
+      <td>Flag to determine whether the content will allow CSS animations. Defaults to true</td>
+    </tr>
+    <tr>
       <td>ariaDescribedBy</td>
       <td><code>string</code></td>
       <td>Sets <code>aria-describedby</code> on the component</td>
@@ -55,7 +60,7 @@
       <td>calculatePosition</td>
       <td><code>Function</code></td>
       <td>
-        A function that allows to customize the position and dimmension of the select's
+        A function that allows to customize the position and dimension of the select's
         content. For more info check https://www.ember-basic-dropdown.com/docs/position
       </td>
     </tr>
@@ -84,7 +89,7 @@
       <td>destination</td>
       <td><code>'ember-basic-dropdown-wormhole'</code></td>
       <td>
-        The id of the element used as target for the dropdown's content, when not rendered in place.
+        The id of the element used as target for the content of the dropdown, when not rendered in place.
       </td>
     </tr>
     <tr>
@@ -108,12 +113,17 @@
       <td>The component to render instead of the default one around the list of options that have groups</td>
     </tr>
     <tr>
+      <td>highlightOnHover</td>
+      <td><code>boolean</code></td>
+      <td>Defaults to true. When false, when the user hovers over an option with the mouse, it will not be highlighted.</td>
+    </tr>
+    <tr>
       <td>horizontalPosition</td>
       <td><code>string</code></td>
       <td>
         In the case when trigger is narrower than dropdown. By default is <code>"auto"</code>, meaning that will
         position the list depending on the side of the trigger. Possible values are
-        <code>"left"</code> and <code>"right"</code>.
+        <code>"left"</code>, <code>"center"</code> and <code>"right"</code>.
       </td>
     </tr>
     <tr>
@@ -130,6 +140,14 @@
       <td>
         Message shown in the list of options while the options are still not resolved,
         typically after a search but also when <code>options</code> is a promise.
+      </td>
+    </tr>
+    <tr>
+      <td>eventType</td>
+      <td><code>string</code></td>
+      <td>
+        Defaults to <code>"mousedown"</code>. Indicates the type of event the trigger component will be listening to
+        open or close.
       </td>
     </tr>
     <tr>
@@ -173,7 +191,7 @@
       <td>oninput</td>
       <td><code>function</code></td>
       <td>
-        The function to be invoked when the user changes the text in any any search input of the component.
+        The function to be invoked when the user changes the text in any search input of the component.
         If the user returns <code>false</code> the default behaviour (filter/search) is prevented.
       </td>
     </tr>
@@ -208,10 +226,15 @@
       <td>Component to be rendered as placeholder. It can be used along with <code>placeholder</code> and has access to it</td>
     </tr>
     <tr>
+      <td>preventScroll</td>
+      <td><code>boolean (defaults to false)</code></td>
+      <td>Flag that prevents any elements on the page outside the dropdown from scrolling. This matches platform-provided <code>select</code> element behavior. Note that this has no effect when scroll is performed on touch device.</td>
+    </tr>
+    <tr>
       <td>renderInPlace</td>
       <td><code>boolean</code></td>
       <td>
-        When truthy, the list of options will be rendered in place instead of being attaches to the root of the body and positioned with javascript.
+        When truthy, the list of options will be rendered in place instead of being attached to the root of the body and positioned with javascript.
         Enabling this option also adds a wrapper div around the trigger and the content with class <code>.ember-power-select</code>.
       </td>
     </tr>
@@ -276,6 +299,19 @@
       <td>The id to be applied to the trigger. Useful link the select to a <code>&lt;label&gt;</code> tag</td>
     </tr>
     <tr>
+      <td>triggerRole</td>
+      <td><code>string</code></td>
+      <td>The aria-role to use on the trigger element. Defaults to <code>'button'</code></td>
+    </tr>
+    <tr>
+      <td>typeAheadMatcher</td>
+      <td><code>function</code></td>
+      <td>
+        The <code>function(option, searchTerm)</code> used to match the searchTerm with an option when the
+        selector is closed or search is disabled. The default one will compare ignoring diacritics.
+      </td>
+    </tr>
+    <tr>
       <td>verticalPosition</td>
       <td><code>string</code></td>
       <td>
@@ -327,5 +363,5 @@
 </pre>
 
 <div class="doc-page-nav">
-  {{#link-to 'public-pages.docs.architecture' class="doc-page-nav-link-prev"}}&lt; Architecture{{/link-to}}
+  {{#link-to "public-pages.docs.architecture" class="doc-page-nav-link-prev"}}&lt; Architecture{{/link-to}}
 </div>

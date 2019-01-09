@@ -1,9 +1,11 @@
 {{#basic-dropdown
+  classNames=(readonly classNames)
   horizontalPosition=(readonly horizontalPosition)
   calculatePosition=calculatePosition
   destination=(readonly destination)
   initiallyOpened=(readonly initiallyOpened)
   matchTriggerWidth=(readonly matchTriggerWidth)
+  preventScroll=(readonly preventScroll)
   onClose=(action "onClose")
   onOpen=(action "onOpen")
   registerAPI=(action "registerAPI")
@@ -13,15 +15,18 @@
   as |dropdown|}}
 
   {{#dropdown.trigger
+    role=(readonly triggerRole)
     tagName=(readonly _triggerTagName)
     ariaDescribedBy=(readonly ariaDescribedBy)
     ariaInvalid=(readonly ariaInvalid)
     ariaLabel=(readonly ariaLabel)
     ariaLabelledBy=(readonly ariaLabelledBy)
     ariaRequired=(readonly required)
+    title=(readonly title)
     class=(readonly concatenatedTriggerClasses)
+    extra=(readonly extra)
     id=(readonly triggerId)
-    eventType="mousedown"
+    eventType=(or eventType "mousedown")
     onKeyDown=(action "onTriggerKeydown")
     onFocus=(action "onTriggerFocus")
     onBlur=(action "onTriggerBlur")
@@ -35,6 +40,7 @@
       buildSelection=(readonly buildSelection)
       extra=(readonly extra)
       listboxId=(readonly optionsId)
+      loadingMessage=(readonly loadingMessage)
       onFocus=(action "onFocus")
       onBlur=(action "onBlur")
       onInput=(action "onInput")
@@ -52,6 +58,7 @@
   {{/dropdown.trigger}}
   {{#dropdown.content _contentTagName=_contentTagName class=(readonly concatenatedDropdownClasses)}}
     {{component beforeOptionsComponent
+      animationEnabled=(readonly animationEnabled)
       ariaExpanded="true"
       extra=(readonly extra)
       listboxId=(readonly optionsId)
@@ -60,10 +67,12 @@
       searchEnabled=(readonly searchEnabled)
       onFocus=(action "onFocus")
       onBlur=(action "onBlur")
+      placeholder=(readonly placeholder)
+      placeholderComponent=(readonly placeholderComponent)
       searchPlaceholder=(readonly searchPlaceholder)
       select=(readonly publicAPI)
       ariaActivedescendant=ariaActivedescendant
-    }}
+      selectedItemComponent=(readonly selectedItemComponent)}}
     {{#if mustShowSearchMessage}}
       {{component searchMessageComponent
         searchMessage=(readonly searchMessage)
@@ -88,6 +97,7 @@
         id=(readonly optionsId)
         options=(readonly publicAPI.results)
         optionsComponent=(readonly optionsComponent)
+        highlightOnHover=(readonly highlightOnHover)
         groupComponent=(readonly groupComponent)
         select=(readonly publicAPI)
         as |option term|}}

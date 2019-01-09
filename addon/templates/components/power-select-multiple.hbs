@@ -1,5 +1,7 @@
 {{#if (hasBlock "inverse")}}
   {{#power-select
+    _triggerTagName=_triggerTagName
+    triggerRole=triggerRole
     afterOptionsComponent=afterOptionsComponent
     allowClear=allowClear
     ariaDescribedBy=ariaDescribedBy
@@ -17,6 +19,7 @@
     disabled=disabled
     dropdownClass=dropdownClass
     extra=extra
+    groupComponent=groupComponent
     horizontalPosition=horizontalPosition
     initiallyOpened=initiallyOpened
     loadingMessage=loadingMessage
@@ -32,9 +35,10 @@
     onopen=(action "handleOpen")
     options=options
     optionsComponent=optionsComponent
-    groupComponent=groupComponent
     placeholder=placeholder
-    registerAPI=(readonly registerAPI)
+    placeholderComponent=placeholderComponent
+    preventScroll=preventScroll
+    registerAPI=(action registerAPI)
     renderInPlace=renderInPlace
     required=required
     scrollTo=scrollTo
@@ -47,6 +51,8 @@
     selectedItemComponent=selectedItemComponent
     tabindex=computedTabIndex
     tagName=tagName
+    eventType=eventType
+    title=title
     triggerClass=concatenatedTriggerClass
     triggerComponent=(component triggerComponent tabindex=tabindex)
     triggerId=triggerId
@@ -58,6 +64,8 @@
   {{/power-select}}
 {{else}}
   {{#power-select
+    _triggerTagName=_triggerTagName
+    triggerRole=triggerRole
     afterOptionsComponent=afterOptionsComponent
     allowClear=allowClear
     ariaDescribedBy=ariaDescribedBy
@@ -75,6 +83,7 @@
     disabled=disabled
     dropdownClass=dropdownClass
     extra=extra
+    groupComponent=groupComponent
     horizontalPosition=horizontalPosition
     initiallyOpened=initiallyOpened
     loadingMessage=loadingMessage
@@ -90,8 +99,9 @@
     onopen=(action "handleOpen")
     options=options
     optionsComponent=optionsComponent
-    groupComponent=groupComponent
     placeholder=placeholder
+    placeholderComponent=placeholderComponent
+    preventScroll=preventScroll
     registerAPI=(readonly registerAPI)
     renderInPlace=renderInPlace
     required=required
@@ -105,6 +115,8 @@
     selectedItemComponent=selectedItemComponent
     tabindex=computedTabIndex
     tagName=tagName
+    eventType=eventType
+    title=title
     triggerClass=concatenatedTriggerClass
     triggerComponent=(component triggerComponent tabindex=tabindex)
     triggerId=triggerId
