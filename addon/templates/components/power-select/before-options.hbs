@@ -4,7 +4,12 @@
       autocorrect="off" autocapitalize="off"
       spellcheck="false" role="combobox"
       class="ember-power-select-search-input"
+      aria-autocomplete="list"
+      aria-haspopup="true"
+      aria-activedescendant={{ariaActivedescendant}}
+      aria-expanded={{ariaExpanded}}
       value={{select.searchText}}
+      aria-owns={{listboxId}}
       aria-controls={{listboxId}}
       placeholder={{searchPlaceholder}}
       oninput={{onInput}}

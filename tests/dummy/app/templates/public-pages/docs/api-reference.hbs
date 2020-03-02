@@ -22,6 +22,11 @@
       <td>When truthy, single selects allow to nullify the selection</td>
     </tr>
     <tr>
+      <td>animationEnabled</td>
+      <td><code>boolean</code></td>
+      <td>Flag to determine whether the content will allow CSS animations. Defaults to true</td>
+    </tr>
+    <tr>
       <td>ariaDescribedBy</td>
       <td><code>string</code></td>
       <td>Sets <code>aria-describedby</code> on the component</td>
@@ -55,7 +60,7 @@
       <td>calculatePosition</td>
       <td><code>Function</code></td>
       <td>
-        A function that allows to customize the position and dimmension of the select's
+        A function that allows to customize the position and dimension of the select's
         content. For more info check https://www.ember-basic-dropdown.com/docs/position
       </td>
     </tr>
@@ -108,12 +113,17 @@
       <td>The component to render instead of the default one around the list of options that have groups</td>
     </tr>
     <tr>
+      <td>highlightOnHover</td>
+      <td><code>boolean</code></td>
+      <td>Defaults to true. When false, when the user hovers over an option with the mouse, it will not be highlighted.</td>
+    </tr>
+    <tr>
       <td>horizontalPosition</td>
       <td><code>string</code></td>
       <td>
         In the case when trigger is narrower than dropdown. By default is <code>"auto"</code>, meaning that will
         position the list depending on the side of the trigger. Possible values are
-        <code>"left"</code> and <code>"right"</code>.
+        <code>"left"</code>, <code>"center"</code> and <code>"right"</code>.
       </td>
     </tr>
     <tr>
@@ -130,6 +140,14 @@
       <td>
         Message shown in the list of options while the options are still not resolved,
         typically after a search but also when <code>options</code> is a promise.
+      </td>
+    </tr>
+    <tr>
+      <td>eventType</td>
+      <td><code>string</code></td>
+      <td>
+        Defaults to <code>"mousedown"</code>. Indicates the type of event the trigger component will be listening to
+        open or close.
       </td>
     </tr>
     <tr>
@@ -173,7 +191,7 @@
       <td>oninput</td>
       <td><code>function</code></td>
       <td>
-        The function to be invoked when the user changes the text in any any search input of the component.
+        The function to be invoked when the user changes the text in any search input of the component.
         If the user returns <code>false</code> the default behaviour (filter/search) is prevented.
       </td>
     </tr>
@@ -216,7 +234,7 @@
       <td>renderInPlace</td>
       <td><code>boolean</code></td>
       <td>
-        When truthy, the list of options will be rendered in place instead of being attaches to the root of the body and positioned with javascript.
+        When truthy, the list of options will be rendered in place instead of being attached to the root of the body and positioned with javascript.
         Enabling this option also adds a wrapper div around the trigger and the content with class <code>.ember-power-select</code>.
       </td>
     </tr>
@@ -345,5 +363,5 @@
 </pre>
 
 <div class="doc-page-nav">
-  {{#link-to 'public-pages.docs.architecture' class="doc-page-nav-link-prev"}}&lt; Architecture{{/link-to}}
+  {{#link-to "public-pages.docs.architecture" class="doc-page-nav-link-prev"}}&lt; Architecture{{/link-to}}
 </div>

@@ -22,13 +22,19 @@
     ariaLabel=(readonly ariaLabel)
     ariaLabelledBy=(readonly ariaLabelledBy)
     ariaRequired=(readonly required)
+    title=(readonly title)
     class=(readonly concatenatedTriggerClasses)
+    extra=(readonly extra)
     id=(readonly triggerId)
-    eventType="mousedown"
+    eventType=(or eventType "mousedown")
     onKeyDown=(action "onTriggerKeydown")
     onFocus=(action "onTriggerFocus")
     onBlur=(action "onTriggerBlur")
-    tabindex=(readonly tabindex)}}
+    tabindex=(readonly tabindex)
+    ariaActivedescendant=ariaActivedescendant
+    aria-activedescendant=ariaActivedescendant
+    role=triggerRole
+  }}
     {{#component triggerComponent
       allowClear=(readonly allowClear)
       buildSelection=(readonly buildSelection)
@@ -45,13 +51,15 @@
       searchField=(readonly searchField)
       select=(readonly publicAPI)
       selectedItemComponent=(readonly selectedItemComponent)
+      ariaActivedescendant=ariaActivedescendant
       as |opt term|}}
       {{yield opt term}}
     {{/component}}
   {{/dropdown.trigger}}
-
   {{#dropdown.content _contentTagName=_contentTagName class=(readonly concatenatedDropdownClasses)}}
     {{component beforeOptionsComponent
+      animationEnabled=(readonly animationEnabled)
+      ariaExpanded="true"
       extra=(readonly extra)
       listboxId=(readonly optionsId)
       onInput=(action "onInput")
@@ -62,7 +70,9 @@
       placeholder=(readonly placeholder)
       placeholderComponent=(readonly placeholderComponent)
       searchPlaceholder=(readonly searchPlaceholder)
-      select=(readonly publicAPI)}}
+      select=(readonly publicAPI)
+      ariaActivedescendant=ariaActivedescendant
+      selectedItemComponent=(readonly selectedItemComponent)}}
     {{#if mustShowSearchMessage}}
       {{component searchMessageComponent
         searchMessage=(readonly searchMessage)
@@ -87,6 +97,7 @@
         id=(readonly optionsId)
         options=(readonly publicAPI.results)
         optionsComponent=(readonly optionsComponent)
+        highlightOnHover=(readonly highlightOnHover)
         groupComponent=(readonly groupComponent)
         select=(readonly publicAPI)
         as |option term|}}

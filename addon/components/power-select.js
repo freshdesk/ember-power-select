@@ -9,6 +9,7 @@ import { DEBUG } from '@glimmer/env';
 import { isBlank } from '@ember/utils';
 import { isArray as isEmberArray } from '@ember/array';
 import ArrayProxy from '@ember/array/proxy';
+import ObjectProxy from '@ember/object/proxy';
 import layout from '../templates/components/power-select';
 import fallbackIfUndefined from '../utils/computed-fallback-if-undefined';
 import optionsMatcher from '../utils/computed-options-matcher';
@@ -75,6 +76,8 @@ export default Component.extend({
   tagName: '',
 
   // Options
+  ariaActivedescendant: '-1',
+  triggerRole: fallbackIfUndefined('button'),
   searchEnabled: fallbackIfUndefined(true),
   matchTriggerWidth: fallbackIfUndefined(true),
   preventScroll: fallbackIfUndefined(false),
@@ -85,6 +88,7 @@ export default Component.extend({
   closeOnSelect: fallbackIfUndefined(true),
   defaultHighlighted: fallbackIfUndefined(defaultHighlighted),
   typeAheadMatcher: fallbackIfUndefined(defaultTypeAheadMatcher),
+  highlightOnHover: fallbackIfUndefined(true),
 
   afterOptionsComponent: fallbackIfUndefined(null),
   beforeOptionsComponent: fallbackIfUndefined('power-select/before-options'),
@@ -108,7 +112,12 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this._publicAPIActions = {
-      search: (...args) => this.send('search', ...args),
+      search: (...args) => {
+        if (this.get('isDestroying')) {
+          return;
+        }
+        return this.send('search', ...args)
+      },
       highlight: (...args) => this.send('highlight', ...args),
       select: (...args) => this.send('select', ...args),
       choose: (...args) => this.send('choose', ...args),
@@ -138,7 +147,7 @@ export default Component.extend({
       return null;
     },
     set(_, selected) {
-      if (selected && selected.then) {
+      if (selected && !(selected instanceof ObjectProxy) && get(selected, 'then')) {
         this.get('_updateSelectedTask').perform(selected);
       } else {
         scheduleOnce('actions', this, this.updateSelection, selected);
@@ -155,7 +164,7 @@ export default Component.extend({
       if (options === oldOptions) {
         return options;
       }
-      if (options && options.then) {
+      if (options && get(options, 'then')) {
         this.get('_updateOptionsTask').perform(options);
       } else {
         scheduleOnce('actions', this, this.updateOptions, options);
@@ -222,7 +231,7 @@ export default Component.extend({
         return false;
       }
       if (e) {
-        this.openingEvent = e;
+        this.set('openingEvent', e);
         if (e.type === 'keydown' && (e.keyCode === 38 || e.keyCode === 40)) {
           e.preventDefault();
         }
@@ -236,7 +245,7 @@ export default Component.extend({
         return false;
       }
       if (e) {
-        this.openingEvent = null;
+        this.set('openingEvent', null);
       }
       this.updateState({ highlighted: undefined });
     },
@@ -326,7 +335,7 @@ export default Component.extend({
     },
 
     scrollTo(option, ...rest) {
-      if (!self.document || !option) {
+      if (!document || !option) {
         return;
       }
       let publicAPI = this.get('publicAPI');
@@ -334,7 +343,7 @@ export default Component.extend({
       if (userDefinedScrollTo) {
         return userDefinedScrollTo(option, publicAPI, ...rest);
       }
-      let optionsList = self.document.getElementById(`ember-power-select-options-${publicAPI.uniqueId}`);
+      let optionsList = document.getElementById(`ember-power-select-options-${publicAPI.uniqueId}`);
       if (!optionsList) {
         return;
       }
@@ -372,7 +381,9 @@ export default Component.extend({
     },
 
     onTriggerBlur(_, event) {
-      this.send('deactivate');
+      if (!this.isDestroying) {
+        this.send('deactivate');
+      }
       let action = this.get('onblur');
       if (action) {
         action(this.get('publicAPI'), event);
@@ -380,7 +391,9 @@ export default Component.extend({
     },
 
     onBlur(event) {
-      this.send('deactivate');
+      if (!this.isDestroying) {
+        this.send('deactivate');
+      }
       let action = this.get('onblur');
       if (action) {
         action(this.get('publicAPI'), event);
@@ -515,7 +528,7 @@ export default Component.extend({
           let subOptions = get(entry, 'options');
           let isGroup = !!get(entry, 'groupName') && !!subOptions;
           if (isGroup) {
-            assert('ember-power-select doesn\'t support promises inside groups. Please, resolve those promises and turn them into arrays before passing them to ember-power-select', !subOptions.then);
+            assert('ember-power-select doesn\'t support promises inside groups. Please, resolve those promises and turn them into arrays before passing them to ember-power-select', !get(subOptions, 'then'));
             walk(subOptions);
           }
         }
@@ -602,7 +615,7 @@ export default Component.extend({
     let search = searchAction(term, publicAPI);
     if (!search) {
       publicAPI = this.updateState({ lastSearchedText: term });
-    } else if (search.then) {
+    } else if (get(search, 'then')) {
       this.get('handleAsyncSearchTask').perform(term, search);
     } else {
       let resultsArray = toPlainArray(search);
@@ -632,9 +645,15 @@ export default Component.extend({
       let newHighlighted = advanceSelectableOption(publicAPI.results, publicAPI.highlighted, step);
       publicAPI.actions.highlight(newHighlighted, e);
       publicAPI.actions.scrollTo(newHighlighted);
+      this._setActiveDescendant(newHighlighted);
     } else {
       publicAPI.actions.open(e);
     }
+  },
+
+  _setActiveDescendant(newHighlighted) {
+    let _highlightedIndex = indexOfOption(this.get('publicAPI.results'), newHighlighted);
+    this.set('ariaActivedescendant', `ember-power-select-options-${this.get('publicAPI.uniqueId')}-${_highlightedIndex}`);
   },
 
   _handleKeyEnter(e) {
