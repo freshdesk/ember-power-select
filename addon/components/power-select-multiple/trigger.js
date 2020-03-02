@@ -10,6 +10,7 @@ import layout from '../../templates/components/power-select-multiple/trigger';
 
 const ua = self.window && self.window.navigator ? self.window.navigator.userAgent : '';
 const isIE = ua.indexOf('MSIE ') > -1 || ua.indexOf('Trident/') > -1;
+const isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 const isTouchDevice = !!self.window && 'ontouchstart' in self.window;
 
 export default Component.extend({
@@ -67,7 +68,7 @@ export default Component.extend({
   }),
 
   maybePlaceholder: computed('placeholder', 'select.selected.length', function() {
-    if (isIE) {
+    if (isIE && !isIE11) {
       return null;
     }
     let select = this.get('select');
